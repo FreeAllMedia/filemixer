@@ -1,0 +1,6 @@
+{
+  "source": {
+    "lib": "./source/lib/{**/*.js,*.js}",
+    "spec": "./source/spec/**/*.spec.js"
+  }
+}
