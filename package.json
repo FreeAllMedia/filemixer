@@ -5,9 +5,9 @@
   "main": "es5/template/template.js",
   "license": "MIT",
   "author": "dcrockwell",
-	"scripts": {
-		"postinstall": "postinstall-build es5 'gulp build'"
-	},
+  "scripts": {
+    "postinstall": "postinstall-build es5 'gulp build'"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FreeAllMedia/filemixer"
@@ -19,7 +19,8 @@
   "dependencies": {
     "ejs": "^2.5.1",
     "flowsync": "^0.1.12",
-    "mrt": "^0.2.0"
+    "mrt": "^0.2.0",
+    "postinstall-build": "^0.2.1"
   },
   "devDependencies": {
     "babel": "^6.5.2",
