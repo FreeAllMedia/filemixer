@@ -9,7 +9,7 @@ node_js:
 - iojs-v1
 - iojs-v2
 - iojs-v3
-script: npm install --only=dev;npm test
+script: npm test
 branches:
   only:
     - master
