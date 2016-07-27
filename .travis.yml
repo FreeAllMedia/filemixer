@@ -11,6 +11,7 @@ node_js:
 - iojs-v3
 before_script:
   - npm install -g gulp
+  - npm install
 script: npm test
 branches:
   only:
