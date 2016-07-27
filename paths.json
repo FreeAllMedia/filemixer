@@ -4,7 +4,9 @@
 			"all": "./source/lib/{**/*.*,**/.*,*.*,*}",
 			"js": "./source/lib/{**/*.js,*.js}"
 		},
-		"spec": "./source/spec/**/*.spec.js"
+		"spec": {
+			"js": "./source/spec/**/*.spec.js"
+		}
 	},
 	"destination": {
 		"es5": {
