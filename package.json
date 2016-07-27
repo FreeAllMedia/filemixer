@@ -2,9 +2,12 @@
   "name": "filemixer",
   "description": "FileMixer combines string-based template engines with a merging system that can write the results to the filesystem.",
   "version": "0.0.0",
-  "main": "main.js",
+  "main": "es5/template/template.js",
   "license": "MIT",
   "author": "dcrockwell",
+	"scripts": {
+		"postinstall": "postinstall-build es5 'gulp build'"
+	},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FreeAllMedia/filemixer"
@@ -28,6 +31,7 @@
     "gulp-mocha": "^2.2.0",
     "intercept-stdout": "^0.1.2",
     "mocha": "^2.5.3",
+    "run-sequence": "^1.2.2",
     "sinon": "^1.17.5"
   }
 }
