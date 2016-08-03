@@ -1,25 +1,23 @@
 import fileSystem from "fs";
 import Async from "flowsync";
 
-export default function render(path, callback = () => {}) {
+
+export default function render(callback = () => {}) {
 	fileSystem.exists(path, exists => {
-		if (exists) {
-			fileDoesntExist(this, path, callback);
-		} else {
-			fileExists(this, path, callback);
-		}
+		const nextStep = exists ? fileExists : fileDoesntExist;
+		nextStep(this, path, callback);
 	});
 
 	return this;
 }
 
-function fileExists(template, path, callback) {
+function fileDoesntExist(template, path, callback) {
 	renderTemplate(template, (error, renderedTemplate) => {
 		writeFile(path, renderedTemplate, callback);
 	});
 }
 
-function fileDoesntExist(template, path, callback) {
+function fileExists(template, path, callback) {
 	Async.waterfall([
 		done => {
 			renderTemplate(template, done);

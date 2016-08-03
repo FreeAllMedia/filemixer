@@ -1,4 +1,4 @@
-import Template from "../../lib/template/template.js";
+import FileMixer from "../../lib/fileMixer/fileMixer.js";
 import intercept from "intercept-stdout";
 import sinon from "sinon";
 
@@ -6,8 +6,8 @@ let stdout,
 		clock,
 		endIntercept;
 
-describe("template.debug()", () => {
-	let template;
+describe("fileMixer.debug()", () => {
+	let fileMixer;
 
 	beforeEach(() => {
 		stdout = "";
@@ -16,7 +16,7 @@ describe("template.debug()", () => {
 		});
 		clock = sinon.useFakeTimers();
 
-		template = new Template();
+		fileMixer = new FileMixer();
 	});
 
 	afterEach(() => {
@@ -25,15 +25,15 @@ describe("template.debug()", () => {
 	});
 
 	it("should be writable", () => {
-		template.debug(process.stdout);
-		template.debug().should.eql(process.stdout);
+		fileMixer.debug(process.stdout);
+		fileMixer.debug().should.eql(process.stdout);
 	});
 
 	it("should return null by default", () => {
-		(template.debug() === null).should.be.true;
+		(fileMixer.debug() === null).should.be.true;
 	});
 
 	it("should return `this` when setting to allow chaining", () => {
-		template.debug(process.stdout).should.eql(template);
+		fileMixer.debug(process.stdout).should.eql(fileMixer);
 	});
 });

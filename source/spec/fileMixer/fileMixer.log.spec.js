@@ -1,4 +1,4 @@
-import Template from "../../lib/template/template.js";
+import FileMixer from "../../lib/fileMixer/fileMixer.js";
 import intercept from "intercept-stdout";
 import sinon from "sinon";
 import util from "util";
@@ -7,13 +7,13 @@ let stdout,
 		clock,
 		endIntercept;
 
-describe("template.log()", () => {
-	let template,
+describe("fileMixer.log()", () => {
+	let fileMixer,
 			message,
 			payload;
 
 	beforeEach(() => {
-		template = new Template();
+		fileMixer = new FileMixer();
 
 		message = "Something happened";
 		payload = {
@@ -37,13 +37,13 @@ describe("template.log()", () => {
 	});
 
 	it("should return `this` when setting to allow chaining", () => {
-		template.log(process.stdout).should.eql(template);
+		fileMixer.log(process.stdout).should.eql(fileMixer);
 	});
 
 	it("should write log messages to the stream provided", () => {
-		template.debug(process.stdout);
+		fileMixer.debug(process.stdout);
 
-		template.log(message);
+		fileMixer.log(message);
 
 		const date = new Date().toISOString().slice(11, -5);
 
@@ -51,9 +51,9 @@ describe("template.log()", () => {
 	});
 
 	it("should write the payload to the next lines if provided", () => {
-		template.debug(process.stdout);
+		fileMixer.debug(process.stdout);
 
-		template.log(message, payload);
+		fileMixer.log(message, payload);
 
 		const date = new Date().toISOString().slice(11, -5);
 
@@ -61,7 +61,7 @@ describe("template.log()", () => {
 	});
 
 	it("should NOT write log messages when a debug stream is not provided", () => {
-		template.log(message, payload);
+		fileMixer.log(message, payload);
 
 		stdout.should.eql("");
 	});
