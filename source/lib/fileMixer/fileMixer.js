@@ -26,6 +26,10 @@ class File extends ChainLink {
 		return this[externalFunction](`${__dirname}/fileMixer.render.js`, callback);
 	}
 
+	write(callback) {
+		return this[externalFunction](`${__dirname}/fileMixer.write.js`, callback);
+	}
+
 	log(message, payload) {
 		return this[externalFunction](`${__dirname}/fileMixer.log.js`, message, payload);
 	}

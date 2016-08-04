@@ -1,14 +1,11 @@
 import FileMixer from "../../lib/fileMixer/fileMixer.js";
 import temp from "temp";
-import fileSystem from "fs";
 
 temp.track();
 
 describe("fileMixer.merge() (no existing file)", () => {
-	let fileMixer,
-			path,
+	let path,
 			contents,
-			existingContents,
 			mergeStrategy,
 			renderedFile,
 			temporaryDirectory;
@@ -24,7 +21,7 @@ describe("fileMixer.merge() (no existing file)", () => {
 			mergeComplete(null, mergedContents);
 		};
 
-		fileMixer = new FileMixer({ path, contents })
+		new FileMixer({ path, contents })
 		.merge(mergeStrategy)
 		.render((error, file) => {
 			renderedFile = file;
