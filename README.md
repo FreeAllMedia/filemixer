@@ -31,7 +31,7 @@ new FileMixer({ path, contents, values })
 	const handleBarsFileMixer = Handlebars.compile(string);
 	const renderedString = handleBarsFileMixer(stringValues);
 	done(null, renderedString);
-};)
+})
 
 /**
  * Optionally set a merging strategy that will run if there's an existing file.
