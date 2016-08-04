@@ -1,8 +1,8 @@
 {
   "name": "filemixer",
   "description": "FileMixer combines string-based template engines with a merging system that can write results to the filesystem.",
-  "version": "0.0.1",
-  "main": "es5/template/template.js",
+  "version": "0.0.2",
+  "main": "es5/fileMixer/fileMixer.js",
   "license": "MIT",
   "author": "dcrockwell",
 	"keywords": ["file", "template", "merge", "diff", "vinyl"],
