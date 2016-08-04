@@ -5,6 +5,7 @@
   "main": "es5/template/template.js",
   "license": "MIT",
   "author": "dcrockwell",
+	"keywords": ["file", "template", "merge", "diff", "vinyl"],
   "scripts": {
     "test": "gulp test",
     "postinstall": "postinstall-build es5 'gulp build'"
