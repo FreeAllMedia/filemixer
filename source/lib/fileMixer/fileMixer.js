@@ -7,7 +7,7 @@ const externalFunction = Symbol(),
 
 class File extends ChainLink {
 	initialize(options = {}) {
-		this.parameters(
+		this.properties(
 			"path",
 			"contents",
 			"engine",
@@ -15,9 +15,9 @@ class File extends ChainLink {
 			"merge"
 		);
 
-		this.parameters(
+		this.properties(
 			"values"
-		).merge;
+		).merged;
 
 		this[setDefaults](options);
 	}
