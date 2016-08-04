@@ -1,0 +1,20 @@
+{
+	"source": {
+		"lib": {
+			"all": "./source/lib/{**/*.*,**/.*,*.*,*}",
+			"js": "./source/lib/{**/*.js,*.js}"
+		},
+		"spec": {
+			"js": "./source/spec/**/*.spec.js"
+		}
+	},
+	"destination": {
+		"es5": {
+			"directory": "./es5",
+			"files": {
+				"all": "./es5/**/*",
+				"js": "./es5/**/*.js"
+			}
+		}
+	}
+}

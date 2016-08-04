@@ -1,0 +1,45 @@
+{
+  "name": "filemixer",
+  "description": "FileMixer combines string-based template engines with a merging system that can write results to the filesystem.",
+  "version": "0.0.1",
+  "main": "es5/template/template.js",
+  "license": "MIT",
+  "author": "dcrockwell",
+	"keywords": ["file", "template", "merge", "diff", "vinyl"],
+  "scripts": {
+    "test": "gulp test",
+    "postinstall": "postinstall-build es5 'gulp build'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FreeAllMedia/filemixer"
+  },
+  "bugs": {
+    "url": "https://github.com/FreeAllMedia/filemixer/issues"
+  },
+  "homepage": "https://github.com/FreeAllMedia/filemixer#readme",
+  "dependencies": {
+    "ejs": "^2.5.1",
+    "flowsync": "^0.1.12",
+    "mrt": "^0.3.0",
+    "postinstall-build": "^0.2.1"
+  },
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.11.4",
+    "babel-eslint": "^6.1.2",
+    "babel-preset-es2015": "^6.9.0",
+    "chai": "^3.5.0",
+    "eslint": "^3.2.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-babel-istanbul": "^1.3.1",
+    "gulp-mocha": "^2.2.0",
+    "handlebars": "^4.0.5",
+    "intercept-stdout": "^0.1.2",
+    "mocha": "^2.5.3",
+    "run-sequence": "^1.2.2",
+    "sinon": "^1.17.5",
+    "temp": "^0.8.3"
+  }
+}
