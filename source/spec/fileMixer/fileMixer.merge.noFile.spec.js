@@ -16,9 +16,10 @@ describe("fileMixer.merge() (no existing file)", () => {
 		path = `${temporaryDirectory}/fileMixer.txt`;
 		contents = "Hello, Bob!";
 
-		mergeStrategy = (self, oldContents, newContents, mergeComplete) => {
-			const mergedContents = oldContents + newContents;
-			mergeComplete(null, mergedContents);
+		mergeStrategy = (self, existingFile, newFile, mergeComplete) => {
+			const mergedFile = Object.assign({}, existingFile);
+			mergedFile.contents = existingFile.contents + newFile.contents;
+			mergeComplete(null, mergedFile);
 		};
 
 		new FileMixer({ path, contents })

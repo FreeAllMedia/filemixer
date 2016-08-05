@@ -22,9 +22,10 @@ describe("fileMixer.merge() (sync)", () => {
 
 		fileSystem.writeFileSync(path, existingContents);
 
-		mergeStrategy = (self, oldContents, newContents) => {
-			const mergedContents = oldContents + newContents;
-			return mergedContents;
+		mergeStrategy = (self, existingFile, newFile) => {
+			const mergedFile = Object.assign({}, existingFile);
+			mergedFile.contents = existingFile.contents + newFile.contents;
+			return mergedFile;
 		};
 
 		fileMixer = new FileMixer({ path, contents })
@@ -35,7 +36,7 @@ describe("fileMixer.merge() (sync)", () => {
 		});
 	});
 
-	it("should render the fileMixer contentss to the designated path", () => {
+	it("should render the fileMixer contents to the designated path", () => {
 		renderedFile.contents.should.eql(existingContents + contents);
 	});
 
@@ -54,7 +55,7 @@ describe("fileMixer.merge() (sync)", () => {
 		const expectedError = new Error("Something went wrong!");
 
 		fileMixer = new FileMixer({ path, contents })
-		.merge((self, oldContents, newContents) => {
+		.merge((self, existingFile, newFile) => {
 			throw expectedError;
 		})
 		.render(error => {
