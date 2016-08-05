@@ -15,15 +15,15 @@ function renderFileObject(fileMixer, callback) {
 		isFile: false
 	};
 
-	Async.series([
+	Async.waterfall([
 		done => {
 			renderPathAndContents(fileMixer, file, done);
 		},
-		done => {
-			mergePathAndContents(fileMixer, file, done);
+		(renderedFile, done) => {
+			mergePathAndContents(fileMixer, renderedFile, done);
 		}
-	], error => {
-		callback(error, file);
+	], (error, mergedFile) => {
+		callback(error, mergedFile);
 	});
 }
 
@@ -52,7 +52,7 @@ function renderPathAndContents(fileMixer, file, callback) {
 			file.path = renderedPath;
 			file.contents = renderedContents;
 
-			callback(error);
+			callback(error, file);
 		}
 	);
 }
@@ -64,11 +64,11 @@ function mergePathAndContents(fileMixer, file, callback) {
 			if (exists) {
 				applyMergeStrategy(fileMixer, file, callback);
 			} else {
-				callback();
+				callback(null, file);
 			}
 		});
 	} else {
-		callback();
+		callback(null, file);
 	}
 }
 
@@ -78,23 +78,32 @@ function applyMergeStrategy(fileMixer, file, callback) {
 
 	Async.waterfall([
 		done => {
-			fileSystem.readFile(path, { encoding: "utf8"}, done);
+			fileSystem.stat(path, (error, stats) => {
+				if (stats.isFile()) {
+					fileSystem.readFile(path, { encoding: "utf8"}, done);
+				} else {
+					done(null, undefined);
+				}
+			});
 		},
 		(existingContents, done) => {
+			const existingFile = {
+				path: path,
+				contents: existingContents,
+				isFile: existingContents ? true : false,
+				isDirectory: existingContents ? false : true
+			};
+
 			if (merge.length === 4) {
-				merge(fileMixer, existingContents, file.contents, done);
+				merge(fileMixer, existingFile, file, done);
 			} else {
 				try {
-					const mergedContents = merge(fileMixer, existingContents, file.contents);
-					done(null, mergedContents);
+					const mergedFile = merge(fileMixer, existingFile, file);
+					done(null, mergedFile);
 				} catch (exception) {
 					done(exception);
 				}
 			}
-		},
-		(mergedContents, done) => {
-			file.contents = mergedContents;
-			done();
 		}
 	], callback);
 }
