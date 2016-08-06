@@ -33,4 +33,8 @@ describe("fileMixer.merge() (no existing file)", () => {
 	it("should render the fileMixer contentss to the designated path", () => {
 		renderedFile.contents.should.eql(contents);
 	});
+
+	it("should set isMerged to false", () => {
+		renderedFile.isMerged.should.be.false;
+	});
 });

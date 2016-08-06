@@ -41,6 +41,10 @@ describe("fileMixer.merge() (async)", () => {
 		renderedFile.contents.should.eql(existingContents + contents);
 	});
 
+	it("should set isMerged to true", () => {
+		renderedFile.isMerged.should.be.true;
+	});
+
 	it("should return `this` to allow chaining", () => {
 		fileMixer.merge(mergeStrategy).should.eql(fileMixer);
 	});

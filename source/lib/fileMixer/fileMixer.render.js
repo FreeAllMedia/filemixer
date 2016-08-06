@@ -12,7 +12,8 @@ function renderFileObject(fileMixer, callback) {
 		path: null,
 		contents: null,
 		isDirectory: false,
-		isFile: false
+		isFile: false,
+		isMerged: false
 	};
 
 	Async.waterfall([
@@ -105,7 +106,14 @@ function applyMergeStrategy(fileMixer, file, callback) {
 				}
 			}
 		}
-	], callback);
+	], (error, mergedFile) => {
+		if (!error) {
+			mergedFile.isMerged = true;
+			callback(error, mergedFile);
+		} else {
+			callback(error);
+		}
+	});
 }
 
 function renderString(fileMixer, string, callback) {
