@@ -29,6 +29,10 @@ describe("fileMixer.render() (without contents)", () => {
 		renderedFile.isDirectory.should.be.true;
 	});
 
+	it("should set isMerged to false", () => {
+		renderedFile.isMerged.should.be.false;
+	});
+
 	it("should return `this` to allow chaining", () => {
 		fileMixer.render(() => {}).should.eql(fileMixer);
 	});

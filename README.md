@@ -12,7 +12,7 @@ Create new and merged virtual files from templates.
 ``` javascript
 import FileMixer from "filemixer";
 
-const path = "./hello<= name %>.txt";
+const path = "./some/path/to/hello<= name %>.txt";
 const contents = "Hello, <%= name %>!";
 const values = {
 	name: "World"
@@ -23,6 +23,11 @@ const values = {
  * If contents is set, the rendered VirtualFile will be a file.
  */
 new FileMixer({ path, contents, values })
+
+/**
+ * Optionally set a custom base for the path. Defaults to file's directory name.
+ */
+.base("./some/path/")
 
 /**
  * Optionally set a custom template engine instead of the default EJS.
@@ -36,9 +41,10 @@ new FileMixer({ path, contents, values })
 /**
  * Optionally set a merging strategy that will run if there's an existing file.
  */
-.merge((self, existingFileContents, newFileContents, done) => {
-	const mergedContents = existingFileContents + newFileContents;
-	done(null, mergedContents);
+.merge((self, existingFile, newFile, done) => {
+	const mergedFile = Object.assign({}, newFile);
+	mergedFile.contents = existingFile.contents + newFile.contents;
+	done(null, mergedFile);
 })
 
 /**
@@ -49,7 +55,9 @@ new FileMixer({ path, contents, values })
 .render((error, file) => {
   file.isFile; // true
   file.isDirectory; // false
-  file.path; // ./helloWorld.txt
+  file.path; // ./some/path/to/helloWorld.txt
+	file.name; // to/helloWorld.txt
+	file.base; // ./some/path/
   file.contents; // Hello, World!
 })
 

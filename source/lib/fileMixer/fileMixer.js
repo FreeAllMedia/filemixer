@@ -1,6 +1,7 @@
 import ChainLink from "mrt";
 import ejs from "ejs";
 // import privateData from "incognito";
+import path from "path";
 
 const externalFunction = Symbol(),
 			setDefaults = Symbol();
@@ -8,12 +9,22 @@ const externalFunction = Symbol(),
 class File extends ChainLink {
 	initialize(options = {}) {
 		this.properties(
-			"path",
 			"contents",
 			"engine",
 			"debug",
-			"merge"
+			"merge",
+			"base"
 		);
+
+		this.properties(
+			"path"
+		).filter(value => {
+			if (value) {
+				this.base(path.dirname(value) + "/");
+			}
+
+			return value;
+		});
 
 		this.properties(
 			"values"
@@ -39,6 +50,10 @@ class File extends ChainLink {
 		this.contents(options.contents);
 		this.values(options.values);
 		this.merge(options.merge);
+
+		if (options.base) {
+			this.base(options.base);
+		}
 
 		const defaultEngine = (string, values, complete) => {
 			const rendered = ejs.render(string, values);
