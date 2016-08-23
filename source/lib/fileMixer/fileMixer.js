@@ -9,13 +9,22 @@ const externalFunction = Symbol(),
 class File extends ChainLink {
 	initialize(options = {}) {
 		this.properties(
-			"path",
 			"contents",
 			"engine",
 			"debug",
 			"merge",
 			"base"
 		);
+
+		this.properties(
+			"path"
+		).filter(value => {
+			if (value) {
+				this.base(path.dirname(value) + "/");
+			}
+
+			return value;
+		});
 
 		this.properties(
 			"values"
@@ -42,8 +51,9 @@ class File extends ChainLink {
 		this.values(options.values);
 		this.merge(options.merge);
 
-		const base = options.base || path.dirname(options.path) + "/";
-		this.base(base);
+		if (options.base) {
+			this.base(options.base);
+		}
 
 		const defaultEngine = (string, values, complete) => {
 			const rendered = ejs.render(string, values);

@@ -36,9 +36,10 @@ new FileMixer({ path, contents, values })
 /**
  * Optionally set a merging strategy that will run if there's an existing file.
  */
-.merge((self, existingFileContents, newFileContents, done) => {
-	const mergedContents = existingFileContents + newFileContents;
-	done(null, mergedContents);
+.merge((self, existingFile, newFile, done) => {
+	const mergedFile = Object.assign({}, newFile);
+	mergedFile.contents = existingFile.contents + newFile.contents;
+	done(null, mergedFile);
 })
 
 /**
