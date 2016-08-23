@@ -16,7 +16,7 @@ describe("fileMixer.render() (directory)", () => {
 
 		new FileMixer({ path })
 		.merge((fileMixer, existingFile) => {
-			path = "new/path/to/something";
+			path = `${temporaryDirectoryPath}/someDirectory`;
 			existingFile.path = path;
 			return existingFile;
 		})
@@ -32,5 +32,9 @@ describe("fileMixer.render() (directory)", () => {
 
 	it("should set isMerged to true", () => {
 		renderedFile.isMerged.should.be.true;
+	});
+
+	it("should render the file name", () => {
+		renderedFile.name.should.eql("someDirectory");
 	});
 });

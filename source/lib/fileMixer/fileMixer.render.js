@@ -1,4 +1,4 @@
-import Async from "flowsync";
+import Async from "async";
 import fileSystem from "fs";
 
 export default function render(callback = () => {}) {
@@ -8,8 +8,12 @@ export default function render(callback = () => {}) {
 }
 
 function renderFileObject(fileMixer, callback) {
+
+
 	const file = {
 		path: null,
+		base: null,
+		name: null,
 		contents: null,
 		isDirectory: false,
 		isFile: false,
@@ -31,6 +35,8 @@ function renderFileObject(fileMixer, callback) {
 function renderPathAndContents(fileMixer, file, callback) {
 	const path = fileMixer.path();
 	const contents = fileMixer.contents();
+	const base = fileMixer.base();
+
 	const stringsToRender = [path, contents];
 
 	if (path || contents) {
@@ -43,13 +49,17 @@ function renderPathAndContents(fileMixer, file, callback) {
 
 	Async.mapSeries(
 		stringsToRender,
-		(string, done) => {
-			renderString(fileMixer, string, done);
-		},
+		Async.apply(renderString, fileMixer),
 		(error, renderedStrings) => {
 			const renderedPath = renderedStrings[0];
 			const renderedContents = renderedStrings[1];
 
+			if (renderedPath) {
+				const fileName = renderedPath.replace(new RegExp(base, "g"), "");
+				file.name = fileName;
+			}
+
+			file.base = base;
 			file.path = renderedPath;
 			file.contents = renderedContents;
 
@@ -89,10 +99,13 @@ function applyMergeStrategy(fileMixer, file, callback) {
 		},
 		(existingContents, done) => {
 			const existingFile = {
-				path: path,
+				name: file.name,
+				base: file.base,
+				path,
 				contents: existingContents,
 				isFile: existingContents ? true : false,
-				isDirectory: existingContents ? false : true
+				isDirectory: existingContents ? false : true,
+				isMerged: false
 			};
 
 			if (merge.length === 4) {
@@ -108,7 +121,10 @@ function applyMergeStrategy(fileMixer, file, callback) {
 		}
 	], (error, mergedFile) => {
 		if (!error) {
+
 			mergedFile.isMerged = true;
+			mergedFile.name = mergedFile.path.replace(new RegExp(mergedFile.base, "g"), "");
+			//console.log({ mergedFile });
 			callback(error, mergedFile);
 		} else {
 			callback(error);
@@ -132,9 +148,13 @@ function renderString(fileMixer, string, callback) {
 				break;
 			}
 			case 3:
-				templateEngine(string, fileMixer.values(), (error, renderedString) => {
-					callback(error, renderedString);
-				});
+				try {
+					templateEngine(string, fileMixer.values(), (error, renderedString) => {
+						callback(error, renderedString);
+					});
+				} catch (exception) {
+					callback(exception);
+				}
 				break;
 		}
 	} else {

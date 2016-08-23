@@ -1,6 +1,7 @@
 import ChainLink from "mrt";
 import ejs from "ejs";
 // import privateData from "incognito";
+import path from "path";
 
 const externalFunction = Symbol(),
 			setDefaults = Symbol();
@@ -12,7 +13,8 @@ class File extends ChainLink {
 			"contents",
 			"engine",
 			"debug",
-			"merge"
+			"merge",
+			"base"
 		);
 
 		this.properties(
@@ -39,6 +41,9 @@ class File extends ChainLink {
 		this.contents(options.contents);
 		this.values(options.values);
 		this.merge(options.merge);
+
+		const base = options.base || path.dirname(options.path) + "/";
+		this.base(base);
 
 		const defaultEngine = (string, values, complete) => {
 			const rendered = ejs.render(string, values);

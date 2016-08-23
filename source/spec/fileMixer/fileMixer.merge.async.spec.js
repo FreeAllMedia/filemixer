@@ -6,12 +6,15 @@ temp.track();
 
 describe("fileMixer.merge() (async)", () => {
 	let fileMixer,
+			name,
+			base,
 			path,
 			contents,
 			existingContents,
 			mergeStrategy,
 			renderedFile,
-			temporaryDirectory;
+			temporaryDirectory,
+			results;
 
 	beforeEach(done => {
 		temporaryDirectory = temp.mkdirSync("FileMixer.render");
@@ -19,12 +22,17 @@ describe("fileMixer.merge() (async)", () => {
 		path = `${temporaryDirectory}/fileMixer.txt`;
 		existingContents = "Hello, World!";
 		contents = "Hello, Bob!";
+		base = `${temporaryDirectory}/`;
+		name = "fileMixer.txt";
 
 
 		fileSystem.writeFileSync(path, existingContents);
 
 		mergeStrategy = (self, existingFile, newFile, mergeComplete) => {
+			results = { existingFile, newFile };
+
 			const mergedFile = Object.assign({}, existingFile);
+			mergedFile.path = newFile.path.replace("fileMixer", "mixerFile");
 			mergedFile.contents = existingFile.contents + newFile.contents;
 			mergeComplete(null, mergedFile);
 		};
@@ -35,6 +43,38 @@ describe("fileMixer.merge() (async)", () => {
 			renderedFile = file;
 			done(error);
 		});
+	});
+
+	it("should provide the merge strategy with the existing virtual file object", () => {
+		results.existingFile.should.eql({
+			name,
+			base,
+			contents: existingContents,
+			path,
+			isFile: true,
+			isDirectory: false,
+			isMerged: false
+		});
+	});
+
+	it("should provide the merge strategy with the existing virtual file object", () => {
+		results.newFile.should.eql({
+			name,
+			base,
+			contents: contents,
+			path: path,
+			isFile: true,
+			isDirectory: false,
+			isMerged: false
+		});
+	});
+
+	it("should render the file name", () => {
+		renderedFile.name.should.eql("mixerFile.txt");
+	});
+
+	it("should render the file name", () => {
+		renderedFile.path.should.eql(base + "mixerFile.txt");
 	});
 
 	it("should render the fileMixer contents to the designated path", () => {
