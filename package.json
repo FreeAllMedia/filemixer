@@ -27,6 +27,7 @@
     "async": "^2.0.1",
     "ejs": "^2.5.1",
     "flowsync": "^0.1.12",
+    "fs-extra": "^0.30.0",
     "mrt": "^0.3.0"
   },
   "devDependencies": {
