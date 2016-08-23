@@ -43,9 +43,19 @@ var File = function (_ChainLink) {
 	_createClass(File, [{
 		key: "initialize",
 		value: function initialize() {
+			var _this2 = this;
+
 			var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-			this.properties("path", "contents", "engine", "debug", "merge", "base");
+			this.properties("contents", "engine", "debug", "merge", "base");
+
+			this.properties("path").filter(function (value) {
+				if (value) {
+					_this2.base(_path2.default.dirname(value) + "/");
+				}
+
+				return value;
+			});
 
 			this.properties("values").merged;
 
@@ -74,8 +84,9 @@ var File = function (_ChainLink) {
 			this.values(options.values);
 			this.merge(options.merge);
 
-			var base = options.base || _path2.default.dirname(options.path) + "/";
-			this.base(base);
+			if (options.base) {
+				this.base(options.base);
+			}
 
 			var defaultEngine = function defaultEngine(string, values, complete) {
 				var rendered = _ejs2.default.render(string, values);
