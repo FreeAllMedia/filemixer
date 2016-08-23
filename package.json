@@ -13,8 +13,7 @@
     "vinyl"
   ],
   "scripts": {
-    "test": "gulp test",
-    "postinstall": "postinstall-build es5 'gulp build'"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
@@ -28,8 +27,7 @@
     "async": "^2.0.1",
     "ejs": "^2.5.1",
     "flowsync": "^0.1.12",
-    "mrt": "^0.3.0",
-    "postinstall-build": "^0.2.1"
+    "mrt": "^0.3.0"
   },
   "devDependencies": {
     "babel": "^6.5.2",
